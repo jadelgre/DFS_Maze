@@ -95,43 +95,45 @@ public class MazeMap extends JPanel {
 			int dir = rand.nextInt(4);
 			MazeCell temp;
 			Boolean unvisited = true;
-			switch (dir){
-			case 0: 
-				temp = getCellAt(currentCell.getRow() - 2, currentCell.getCol());
-				if(!visited.contains(temp) && temp != null){
-					getCellAt(currentCell.getRow() - 1, currentCell.getCol()).setType(CellType.PATH);
-					mazeRecurse(temp);
-					unvisited = false;
+			for(int i = 0; i < 4; i++) {
+				switch (dir){
+				case 0: 
+					temp = getCellAt(currentCell.getRow() - 2, currentCell.getCol());
+					if(!visited.contains(temp) && temp != null){
+						getCellAt(currentCell.getRow() - 1, currentCell.getCol()).setType(CellType.PATH);
+						mazeRecurse(temp);
+						unvisited = false;
+					}
+				case 1:
+					temp = getCellAt(currentCell.getRow() + 2, currentCell.getCol());
+					if(!visited.contains(temp) && temp != null){
+						getCellAt(currentCell.getRow() + 1, currentCell.getCol()).setType(CellType.PATH);
+						mazeRecurse(temp);
+						unvisited = false;
+					}
+				case 2:
+					temp = getCellAt(currentCell.getRow(), currentCell.getCol() + 2);
+					if(!visited.contains(temp) && temp != null) {
+						getCellAt(currentCell.getRow(), currentCell.getCol() + 1).setType(CellType.PATH);
+						mazeRecurse(temp);
+						unvisited = false;
+					}
+				case 3:
+					temp = getCellAt(currentCell.getRow(), currentCell.getCol() - 2);
+					if(!visited.contains(temp) && temp != null) {
+						getCellAt(currentCell.getRow(), currentCell.getCol() - 1).setType(CellType.PATH);
+						mazeRecurse(temp);
+						unvisited = false;
+					}
 				}
-			case 1:
-				temp = getCellAt(currentCell.getRow() + 2, currentCell.getCol());
-				if(!visited.contains(temp) && temp != null){
-					getCellAt(currentCell.getRow() + 1, currentCell.getCol()).setType(CellType.PATH);
-					mazeRecurse(temp);
-					unvisited = false;
-				}
-			case 2:
-				temp = getCellAt(currentCell.getRow(), currentCell.getCol() + 2);
-				if(!visited.contains(temp) && temp != null) {
-					getCellAt(currentCell.getRow(), currentCell.getCol() + 1).setType(CellType.PATH);
-					mazeRecurse(temp);
-					unvisited = false;
-				}
-			case 3:
-				temp = getCellAt(currentCell.getRow(), currentCell.getCol() - 2);
-				if(!visited.contains(temp) && temp != null) {
-					getCellAt(currentCell.getRow(), currentCell.getCol() - 1).setType(CellType.PATH);
-					mazeRecurse(temp);
-					unvisited = false;
-				}
+				dir = rand.nextInt(4);
 			}
-			if(!unvisited) {
+			if(!unvisited && pile.size() > 1) {
 				pile.pop();
-				mazeRecurse(currentCell);
+				mazeRecurse(pile.pop());
 			}
 			repaint();
-		} else if(pile.size() < 1) mazeRecurse(pile.pop());
-
+		} 
 	}
 
 	private MoveDirection getRandomDir() {
