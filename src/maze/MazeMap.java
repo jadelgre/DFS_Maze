@@ -129,6 +129,11 @@ public class MazeMap extends JPanel {
 		}
 		repaint();
 	}
+	
+	public void updateSize(int rows, int cols) {
+		numRows = rows;
+		numCols = cols;
+	}
 
 	private MoveDirection getRandomDir() {
 		rand = new Random(MoveDirection.values().toString().length());
