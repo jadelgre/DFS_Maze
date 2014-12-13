@@ -12,8 +12,9 @@ public class MazeHandler extends JFrame{
 	private int COLS = 25;
 	public MazeHandler() {
 		maze = new MazeMap(ROWS, COLS);
-		maze.generateMaze();
 		drawGUI();
+		maze.generateMaze();
+
 	}
 	
 	private void drawGUI() {

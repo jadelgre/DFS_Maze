@@ -74,15 +74,6 @@ public class MazeMap extends JPanel {
 		finish.setType(CellType.EXIT);
 		mazeRecurse(start);
 		System.out.println(pile.size());
-/*		if(!pile.empty()) {
-			calcAdjacencies(2);
-		}
-		while(!pile.empty()) {
-			MazeCell temp = pile.pop();
-			for(MazeCell c : adj.get(temp)) {
-				mazeRecurse(temp);
-			}
-		}*/
 	}
 
 	private void mazeRecurse(MazeCell currentCell) { 
@@ -91,6 +82,13 @@ public class MazeMap extends JPanel {
 			currentCell.setType(CellType.PATH);
 			visited.add(currentCell);
 			//MoveDirection dir = getRandomDir();
+/*			try {
+				Thread.sleep(100);
+				repaint();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}*/
 			rand = new Random();
 			int dir = rand.nextInt(4);
 			MazeCell temp;
@@ -133,7 +131,9 @@ public class MazeMap extends JPanel {
 				mazeRecurse(pile.pop());
 			}
 			repaint();
-		} 
+		} else {
+			visited.add(finish);
+		}
 	}
 
 	private MoveDirection getRandomDir() {
