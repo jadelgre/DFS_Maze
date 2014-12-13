@@ -1,6 +1,8 @@
 package maze;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,13 +20,14 @@ public class MazeHandler extends JFrame implements ActionListener{
 	private JRadioButton smallButton;
 	private JRadioButton mediumButton;
 	private JRadioButton largeButton;
+	private ButtonGroup sizes;
 	private int WINDOW_WIDTH = 500;
 	private int WINDOW_HEIGHT = 500;
 	private int ROWS = 25;
 	private int COLS = 25;
 	private int SMALL = 25;
 	private int MEDIUM = 51;
-	private int LARGE = 251;
+	private int LARGE = 101;
 	public MazeHandler() {
 		maze = new MazeMap(ROWS, COLS);
 		drawGUI();
@@ -38,6 +41,7 @@ public class MazeHandler extends JFrame implements ActionListener{
 		controls = buttonPanel();
 		this.add(controls, BorderLayout.SOUTH);
 		this.add(maze, BorderLayout.CENTER);
+		pack();
 		this.setTitle("DFS Maze");
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
@@ -47,12 +51,15 @@ public class MazeHandler extends JFrame implements ActionListener{
 
 		maze.updateSize(ROWS, COLS);
 		maze.generateMaze();
+		controls.setPreferredSize(new Dimension(maze.getSize().width, controls.getHeight()));
+		pack();
 	}
 
 	private JPanel buttonPanel() {
 		JPanel temp = new JPanel();
-		temp.setLayout(new GridLayout(1,3));
-		ButtonGroup sizes = new ButtonGroup();
+		//temp.setLayout(new GridLayout(1,3));
+		temp.setLayout(new FlowLayout());
+		sizes = new ButtonGroup();
 		smallButton = new JRadioButton("Small: " + SMALL + "x" + SMALL);
 		smallButton.addActionListener(this);
 		mediumButton = new JRadioButton("Medium:" + MEDIUM + "x" + MEDIUM);

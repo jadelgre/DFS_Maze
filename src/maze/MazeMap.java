@@ -1,4 +1,5 @@
 package maze;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +28,8 @@ public class MazeMap extends JPanel {
 		numRows = rows;
 		numCols = cols;
 		createGrid();
+		this.setPreferredSize(new Dimension(500,500));
+		this.setMinimumSize(new Dimension(500,500));
 	}
 
 	private void createGrid() {
@@ -69,17 +72,16 @@ public class MazeMap extends JPanel {
 		rand = new Random(numRows);
 		int randomNum = rand.nextInt();
 		start = getCellAt(1, 1);
-		start.setType(CellType.ENTRANCE);
 		randomNum = rand.nextInt();
-		finish = getCellAt(23, 23);
+		finish = getCellAt(numRows-2, numCols-2);
 		finish.setType(CellType.EXIT);
 		mazeRecurse(start);
+		start.setType(CellType.ENTRANCE);
 	}
 
 	private void mazeRecurse(MazeCell currentCell) { 
 
 		if(!currentCell.equals(finish)) {
-			repaint();
 			pile.push(currentCell);
 			currentCell.setType(CellType.PATH);
 			visited.add(currentCell);
@@ -133,6 +135,8 @@ public class MazeMap extends JPanel {
 	public void updateSize(int rows, int cols) {
 		numRows = rows;
 		numCols = cols;
+		this.setPreferredSize(new Dimension(rows*10,cols*10));
+		this.setMinimumSize(new Dimension(rows*10, cols*10));
 	}
 
 	private MoveDirection getRandomDir() {
@@ -184,17 +188,23 @@ public class MazeMap extends JPanel {
 		int gridWidth;
 		int gridHeight;
 		int aspectRatio = 1 ; // fixed so grid cells are square
+		System.out.println(windowWidth + " " + windowWidth / numCols);
 		gridWidth = windowWidth / (numCols);
 		gridHeight = windowHeight / (numRows);
-		/*if( windowWidth <= windowHeight) {
+		if( windowWidth <= windowHeight) {
 			gridWidth = windowWidth / (numCols);
 			gridHeight = gridWidth * aspectRatio;
 		} else {
 			gridWidth = windowHeight / (numRows);
 			gridHeight = gridWidth * aspectRatio;
-		}*/
+		}
 		int x;
 		int y;
+/*		for(int i = 0; i < numRows; i++) {
+			for(int k = 0; k < numCols; k++) {
+				g.drawRect(i*gridWidth, k*gridHeight, gridWidth, gridHeight);
+			}
+		}*/
 		for( int i = numRows - 1; i >= 0; i--) {
 			for( int k = numCols - 1; k >= 0; k--) {
 				x = gridWidth * i;

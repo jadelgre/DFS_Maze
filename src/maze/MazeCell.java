@@ -8,6 +8,8 @@ public class MazeCell {
 	private CellType type;
 	private int row;
 	private int col;
+	private Boolean visited = false;
+	private Boolean correct = false;
 	
 	public MazeCell(int row, int col) {
 		this.row = row;
@@ -39,7 +41,27 @@ public class MazeCell {
 	
 	public void draw(int x, int y, int gridHeight, int gridWidth, Graphics g) {
 		g.setColor(Color.black);
-		//g.drawRect(x, y, gridWidth, gridHeight);
 		if(this.type == CellType.WALL) g.fillRect(x, y, gridWidth, gridHeight);	
+		else if(this.type == CellType.PATH) {
+			if(visited) {
+				if(!correct) g.setColor(Color.GREEN);	
+				else g.setColor(Color.BLUE);
+				g.fillRect(x, y, gridWidth, gridHeight);	
+			}
+		} else {
+			if(this.type == CellType.ENTRANCE){ g.setColor(Color.GREEN);
+			System.out.println("YAR");
+			}
+			else if(this.type == CellType.EXIT) g.setColor(Color.RED);
+			g.fillRect(x, y, gridWidth, gridHeight);	
+		}
+	}
+
+	public Boolean getVisited() {
+		return visited;
+	}
+
+	public void setRow(int row) {
+		this.row = row;
 	}
 }
