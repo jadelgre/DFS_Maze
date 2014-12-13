@@ -37,7 +37,7 @@ public class MazeCell {
 		return false;
 	}
 	
-	public void draw(int y, int x, int gridHeight, int gridWidth, Graphics g) {
+	public void draw(int x, int y, int gridHeight, int gridWidth, Graphics g) {
 		g.setColor(Color.black);
 		//g.drawRect(x, y, gridWidth, gridHeight);
 		if(this.type == CellType.WALL) g.fillRect(x, y, gridWidth, gridHeight);	

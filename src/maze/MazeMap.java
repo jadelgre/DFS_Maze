@@ -62,6 +62,7 @@ public class MazeMap extends JPanel {
 	}
 
 	public void generateMaze() {
+		createGrid();
 		visited = new ArrayList<MazeCell>();
 		pile = new Stack<MazeCell>();
 		// get a random edge cell
@@ -73,22 +74,15 @@ public class MazeMap extends JPanel {
 		finish = getCellAt(23, 23);
 		finish.setType(CellType.EXIT);
 		mazeRecurse(start);
-		System.out.println(pile.size());
 	}
 
 	private void mazeRecurse(MazeCell currentCell) { 
+
 		if(!currentCell.equals(finish)) {
+			repaint();
 			pile.push(currentCell);
 			currentCell.setType(CellType.PATH);
 			visited.add(currentCell);
-			//MoveDirection dir = getRandomDir();
-/*			try {
-				Thread.sleep(100);
-				repaint();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}*/
 			rand = new Random();
 			int dir = rand.nextInt(4);
 			MazeCell temp;
@@ -130,10 +124,10 @@ public class MazeMap extends JPanel {
 				pile.pop();
 				mazeRecurse(pile.pop());
 			}
-			repaint();
 		} else {
 			visited.add(finish);
 		}
+		repaint();
 	}
 
 	private MoveDirection getRandomDir() {
@@ -180,25 +174,27 @@ public class MazeMap extends JPanel {
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		// Account for window being scalable
-		int windowWidth = this.getWidth() - 1;
-		int windowHeight = this.getHeight() - 1;
+		int windowWidth = this.getSize().width;
+		int windowHeight = this.getSize().height;
 		int gridWidth;
 		int gridHeight;
 		int aspectRatio = 1 ; // fixed so grid cells are square
-		if( windowWidth < windowHeight) {
-			gridWidth = windowWidth / (numRows);
+		gridWidth = windowWidth / (numCols);
+		gridHeight = windowHeight / (numRows);
+		/*if( windowWidth <= windowHeight) {
+			gridWidth = windowWidth / (numCols);
 			gridHeight = gridWidth * aspectRatio;
 		} else {
-			gridWidth = windowHeight / (numCols);
+			gridWidth = windowHeight / (numRows);
 			gridHeight = gridWidth * aspectRatio;
-		}
+		}*/
 		int x;
 		int y;
 		for( int i = numRows - 1; i >= 0; i--) {
 			for( int k = numCols - 1; k >= 0; k--) {
 				x = gridWidth * i;
 				y = gridHeight * k;
-				grid.get(k).get(i).draw(y, x, gridHeight, gridWidth, g);
+				grid.get(k).get(i).draw(x, y, gridHeight, gridWidth, g);
 			}
 		}
 
