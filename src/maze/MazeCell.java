@@ -49,14 +49,15 @@ public class MazeCell {
 				g.fillRect(x, y, gridWidth, gridHeight);	
 			}
 		} else {
-			if(this.type == CellType.ENTRANCE){ g.setColor(Color.GREEN);
-			System.out.println("YAR");
-			}
+			if(this.type == CellType.ENTRANCE)g.setColor(Color.GREEN);
 			else if(this.type == CellType.EXIT) g.setColor(Color.RED);
 			g.fillRect(x, y, gridWidth, gridHeight);	
 		}
 	}
 
+	public void setVisited(Boolean bool) {
+		visited = bool;
+	}
 	public Boolean getVisited() {
 		return visited;
 	}

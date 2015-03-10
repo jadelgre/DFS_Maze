@@ -53,6 +53,7 @@ public class MazeHandler extends JFrame implements ActionListener{
 		maze.generateMaze();
 		controls.setPreferredSize(new Dimension(maze.getSize().width, controls.getHeight()));
 		pack();
+		//maze.solveMaze();
 	}
 
 	private JPanel buttonPanel() {

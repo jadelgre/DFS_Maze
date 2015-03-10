@@ -21,15 +21,14 @@ public class MazeMap extends JPanel {
 	private Random rand;
 	private int numRows;
 	private int numCols;
-	private enum MoveDirection { U, D, L, R };
 	private boolean reachedFinish = false;
 
 	public MazeMap(int rows, int cols) {
 		numRows = rows;
 		numCols = cols;
 		createGrid();
-		this.setPreferredSize(new Dimension(500,500));
-		this.setMinimumSize(new Dimension(500,500));
+		this.setPreferredSize(new Dimension(510,510));
+		this.setMinimumSize(new Dimension(510,510));
 	}
 
 	private void createGrid() {
@@ -135,21 +134,6 @@ public class MazeMap extends JPanel {
 	public void updateSize(int rows, int cols) {
 		numRows = rows;
 		numCols = cols;
-		this.setPreferredSize(new Dimension(rows*10,cols*10));
-		this.setMinimumSize(new Dimension(rows*10, cols*10));
-	}
-
-	private MoveDirection getRandomDir() {
-		rand = new Random(MoveDirection.values().toString().length());
-		System.out.println(MoveDirection.values().toString());
-		return MoveDirection.values()[rand.nextInt()];
-	}
-
-
-	private MazeCell getRandomAdj(MazeCell location) {
-		if(getAdjacencies(location).size() == 1) return getAdjacencies(location).get(0);
-		rand = new Random(getAdjacencies(location).size());
-		return getAdjacencies(location).get(rand.nextInt());
 	}
 
 	private boolean isValidMove(MazeCell from, int row, int col) {
@@ -160,6 +144,35 @@ public class MazeMap extends JPanel {
 	public MazeCell getCellAt(int row, int col) {
 		if(row >= 0 && row < numRows && col >= 0 && col < numCols) return grid.get(row).get(col);
 		return null;
+	}
+	
+	public void solveMaze() {
+		pile.clear();
+		calcAdjacencies(1);
+		solveRecurse(start);
+	}
+	
+	private void solveRecurse(MazeCell current) {
+/*		try {
+			Thread.sleep(50);
+			repaint();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+		//System.out.println(pile.size());
+		if(!current.getVisited() && !reachedFinish) {
+			current.setVisited(true);
+			pile.push(current);
+			if(current.equals(finish))	reachedFinish = true;
+			for(MazeCell c : getAdjacencies(current)) {
+				if(!c.getVisited() && !reachedFinish){
+					solveRecurse(c);
+				}
+			}
+		} else if (!reachedFinish){
+			solveRecurse(pile.pop());
+		}
 	}
 
 	public ArrayList<ArrayList<MazeCell>> getGrid() {
@@ -188,7 +201,7 @@ public class MazeMap extends JPanel {
 		int gridWidth;
 		int gridHeight;
 		int aspectRatio = 1 ; // fixed so grid cells are square
-		System.out.println(windowWidth + " " + windowWidth / numCols);
+		// System.out.println(windowWidth + " " + windowWidth / numCols);
 		gridWidth = windowWidth / (numCols);
 		gridHeight = windowHeight / (numRows);
 		if( windowWidth <= windowHeight) {
